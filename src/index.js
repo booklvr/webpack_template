@@ -1,5 +1,6 @@
 import logMessage from './js/logger';
-import './css/style.css'
+import './css/style.css';
+import './sass/main.scss';
 
 // log message to console
 logMessage('Welcome to Webpack Boiler Template');
