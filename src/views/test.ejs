@@ -6,6 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <p><%- test %></p>
+    <% if (test) { %> 
+        <p><%- test %></p>
+    <% } else { %>
+        <p>There is not message sent from test</p> 
+    <% } %>
 </body>
 </html>

@@ -1,5 +1,10 @@
 import path from 'path';
 import express from 'express';
+
+// const testRouter = require('./routers/test');
+import testRoute from './routers/test';
+
+// import routers from routers;
 // import webpack from 'webpack';
 // import webpackDevMiddleware from 'webpack-dev-middleware';
 // import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -21,13 +26,14 @@ app.use(express.static(DIST_DIR));
 
 
 app.set('views', path.join(__dirname, 'views'));
-// app.set('views', path.join(__dirname, config.output.publicPath))
 app.set("view engine", "ejs");
 
 app.get('/', (req, res) => {
     res.render('index', {msg: 'hello from index.ejs'});
 })
 
+
+app.use('/test', testRoute);
 
 // app.get('*', (req, res, next) => {
 //     compiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
@@ -39,10 +45,6 @@ app.get('/', (req, res) => {
 //         res.end()
 //     })
 // })
-
-app.get('/test', (req, res) => {
-    res.render('test', {test: 'hello from test'})
-})
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
