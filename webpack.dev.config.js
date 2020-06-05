@@ -48,7 +48,7 @@ module.exports = {
                 use: [
                     'style-loader',
                     'css-loader',
-                    'post-css-loader',
+
                     'sass-loader',
                 ]
             },
@@ -64,10 +64,16 @@ module.exports = {
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: "./src/html/index.html",
-            filename: "./index.html",
-            excludeChunks: [ 'server' ]
+            template: '!!raw-loader!src/html/index.ejs',
+            filename: 'views/index.ejs'  // this line decide the extension of output file.
+            // template: "./src/html/index.html",
+            // filename: "./index.html",
+            // excludeChunks: [ 'server' ]
         }),
+        // new HtmlWebPackPlugin({
+        //     template: '!!raw-loader!src/views/test.ejs',
+        //     filename: 'views/test.ejs'  // this line decide the extension of output file.
+        // }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     ]
