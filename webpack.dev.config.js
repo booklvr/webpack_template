@@ -4,7 +4,8 @@ const HtmlWebPackPlugin = require("html-webpack-plugin")
 
 module.exports = {
     entry: {
-        main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './src/index.js']
+        // main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './src/index.js']
+        main: './src/index.js',
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -66,15 +67,12 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: '!!raw-loader!src/html/index.ejs',
             filename: 'views/index.ejs'  // this line decide the extension of output file.
-            // template: "./src/html/index.html",
-            // filename: "./index.html",
-            // excludeChunks: [ 'server' ]
         }),
-        // new HtmlWebPackPlugin({
-        //     template: '!!raw-loader!src/views/test.ejs',
-        //     filename: 'views/test.ejs'  // this line decide the extension of output file.
-        // }),
-        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebPackPlugin({
+            template: '!!raw-loader!src/views/test.ejs',
+            filename: 'views/test.ejs'  // this line decide the extension of output file.
+        }),
+        // new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     ]
 }
