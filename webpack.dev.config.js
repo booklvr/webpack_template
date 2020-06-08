@@ -1,16 +1,16 @@
-const path = require("path")
-const webpack = require('webpack')
-const HtmlWebPackPlugin = require("html-webpack-plugin")
+const path = require("path");
+const webpack = require('webpack');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: {
-        // main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './src/index.js']
         main: './src/index.js',
+        test: './src/js/test/controller.js',
     },
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].js'
+        filename: 'js/[name].js'
     },
     mode: 'development',
     target: 'web',
@@ -48,10 +48,15 @@ module.exports = {
                 test: /\.(sc|c)ss$/,
                 use: [
                     'style-loader',
-                    'css-loader',
-
+                    {
+                      loader: 'css-loader',
+                      options: {
+                        importLoaders: 1
+                      }
+                    },
+                    'postcss-loader',
                     'sass-loader',
-                ]
+                  ]
             },
             // {
             //     test: /\.css$/,
@@ -64,13 +69,22 @@ module.exports = {
         ]
     },
     plugins: [
+        // *** pages ***
         new HtmlWebPackPlugin({
-            template: '!!raw-loader!src/html/index.ejs',
-            filename: 'views/index.ejs'  // this line decide the extension of output file.
+            template: '!!raw-loader!src/views/pages/index.ejs',
+            filename: 'views/pages/index.ejs',  // this line decide the extension of output file.
+            chunks: ['main'],
         }),
         new HtmlWebPackPlugin({
-            template: '!!raw-loader!src/views/test.ejs',
-            filename: 'views/test.ejs'  // this line decide the extension of output file.
+            template: '!!raw-loader!src/views/pages/test.ejs',
+            filename: 'views/pages/test.ejs',  // this line decide the extension of output file.
+            chunks: ['main', 'test']
+        }),
+        // *** partials *** 
+        new HtmlWebPackPlugin({
+            template: '!!raw-loader!src/views/partials/head.ejs',
+            filename: 'views/partials/head.ejs',
+            chunks: [],
         }),
         // new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()

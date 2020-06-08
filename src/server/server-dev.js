@@ -29,7 +29,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
 app.get('/', (req, res) => {
-    res.render('index', {msg: 'hello from index.ejs'});
+    res.render('pages/index', {msg: 'hello from index.ejs'});
 })
 
 

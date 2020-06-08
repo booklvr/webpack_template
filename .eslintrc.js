@@ -1,5 +1,5 @@
 module.exports = {
-    "plugins": [ "node", "standard", "promise", "import"],
+    "plugins": [ "node", "standard", "promise", "import" ],
     "extends": [
         "eslint:recommended",
         "plugin:node/recommended",

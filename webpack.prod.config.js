@@ -1,5 +1,5 @@
-const path = require("path")
-const webpack = require('webpack')
+const path = require("path");
+const webpack = require('webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
@@ -7,12 +7,13 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = {
     entry: {
-        main: './src/index.js'
+        main: './src/index.js',
+        test: './src/js/test/controller.js',
     },
     output: {
         path: path.join(__dirname, 'dist'),
         publicPath: '/',
-        filename: '[name].js'
+        filename: 'js/[name].js'
     },
     target: 'web',
     devtool: 'source-map',
@@ -41,7 +42,7 @@ module.exports = {
                 use: [
                     {
                         loader: "html-loader",
-                        //options: { minimize: true }
+                        options: { minimize: true }
                     }
                 ]
             },
@@ -53,23 +54,43 @@ module.exports = {
                 ]
             },
             {
-                test: /\.css$/,
-                use: [ MiniCssExtractPlugin.loader, 'css-loader' ]
+                test: /\.(sc|c)ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader, 
+                    {
+                      loader: 'css-loader',
+                      options: {
+                        importLoaders: 1
+                      }
+                    },
+                    'postcss-loader',
+                    'sass-loader',
+                  ]
             },
         ]
     },
     plugins: [
         new HtmlWebPackPlugin({
-            template: '!!raw-loader!src/html/index.ejs',
-            filename: 'views/index.ejs'  // this line decide the extension of output file.
+            template: '!!raw-loader!src/views/pages/index.ejs',
+            filename: 'views/pages/index.ejs',  // this line decide the extension of output file.
+            chunks: ['main'],
         }),
         new HtmlWebPackPlugin({
-            template: '!!raw-loader!src/views/test.ejs',
-            filename: 'views/test.ejs'  // this line decide the extension of output file.
+            template: '!!raw-loader!src/views/pages/test.ejs',
+            filename: 'views/pages/test.ejs',  // this line decide the extension of output file.
+            chunks: ['main', 'test']
         }),
+        // *** partials *** 
+        new HtmlWebPackPlugin({
+            template: '!!raw-loader!src/views/partials/head.ejs',
+            filename: 'views/partials/head.ejs',
+            chunks: [],
+        }),
+        // new webpack.HotModuleReplacementPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin()
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css"
-        })
+          }),
     ]
 }
